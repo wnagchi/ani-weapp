@@ -1,0 +1,54 @@
+<scroll-view style="height:{{aniData.scrollHeight}}px">
+<view class="margin flex flex-direction">
+    <text class="text-black text-xl text-bold">Router</text>
+    <text class="text-bold padding-tb">页面中跳转</text>
+    <view wx:if="{{$backData}}">
+        返回时带过来的参数： {{$backData}}
+    </view>
+    <button 
+        bindtap="$toPath" 
+        data-path="../item/item" 
+        class="cu-btn bg-red margin-tb-sm lg button-hover"
+    >
+       跳转 
+    </button>
+    <button 
+        bindtap="$toPath" 
+        data-to-type="to" 
+        data-path="../item/item" 
+        data-to-data="{{hh}}" 
+        class="cu-btn bg-red margin-tb-sm lg button-hover"
+    >
+        带参数跳转 
+    </button>
+
+    <button 
+        bindtap="$toPath" 
+        data-to-type="offTo" 
+        data-path="../item/item"
+        class="cu-btn bg-red margin-tb-sm lg button-hover"
+    >
+        关闭当前页跳转
+    </button>
+    <button 
+        bindtap="$toPath" 
+        data-to-type="back" 
+        class="cu-btn bg-red margin-tb-sm lg button-hover"
+    >
+        返回前一页
+    </button>
+    
+
+    <text class="text-bold padding-tb">使用js跳转</text>
+    <button bindtap="toItem1" class="cu-btn bg-red margin-tb-sm lg button-hover">跳转</button>
+    <button bindtap="toItem2" class="cu-btn bg-red margin-tb-sm lg button-hover">带参数跳转</button>
+    <button bindtap="toItem3" class="cu-btn bg-red margin-tb-sm lg button-hover">
+        关闭当前页跳转
+    </button>
+    <button bindtap="toItem4" class="cu-btn bg-red margin-tb-sm lg button-hover">
+        返回前一页
+    </button>
+
+
+ </view>
+</scroll-view>

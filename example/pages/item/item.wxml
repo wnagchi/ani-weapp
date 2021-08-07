@@ -1,0 +1,7 @@
+
+<scroll-view style="height:{{aniData.scrollHeight}}px">
+ <view class="margin flex flex-direction">
+     <view >前一页带过来的参数：{{options}}</view>
+    <button bindtap="$toPath" data-to-type="back" data-to-data="{asas:10}" class="cu-btn bg-green margin-tb-sm lg button-hover">返回前一页</button>
+ </view>
+</scroll-view>

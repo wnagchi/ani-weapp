@@ -1,0 +1,20 @@
+<scroll-view style="height:{{aniData.scrollHeight}}px">
+<view class="margin flex flex-direction">
+    <text class="text-black text-xl text-bold">Scope</text>
+    <text class="text-bold padding-tb">节流</text>
+    <button bindtap="dbClick" class="cu-btn bg-red margin-tb-sm lg button-hover">
+       throttle 
+    </button>
+    
+   
+    <text class="text-bold padding-tb">防抖</text>
+    <button bindtap="debounce" class="cu-btn bg-red margin-tb-sm lg button-hover">
+        debounce 
+    </button>
+    <text class="text-bold padding-tb">执行一次</text>
+    <button bindtap="todoOnce" class="cu-btn bg-red margin-tb-sm lg button-hover">
+        once 
+    </button>
+
+ </view>
+</scroll-view>

@@ -1,0 +1,1 @@
+<button bindtap="setStore" class="cu-btn bg-red margin-tb-sm lg button-hover block">点击修改store</button>
