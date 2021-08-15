@@ -1,12 +1,13 @@
 # 小程序在组件化开发的时候可能没有达到vue那样的便捷，例如跨组件状态同步等。
 
-### 这个插件可以：
-- #### 1.通过代理的方式，为小程序添加了跨组件实时通信；父子组件实时同步状态功能；
+### 这个插件：
+- #### 1.为小程序添加了跨组件实时通信；父子组件实时同步状态功能；
 - #### 2.与vue相似的WatchStore功能，监听全局状态的变化；
 - #### 3.更加简单的引入，还内置了如同Vue中的mixin 功能， 将页面中复杂的功能拆解开，使后期维护更加方便；
 - #### 4.内置了屏幕安全域功能 直接方便避免苹果系列手机下方黑条；
 - #### 5.内置封装的跳转功能 可以直接在wxml中实现带参跳转，js带参跳转 ，封装成为比官方更加简便的调用方式，参数传递 ；同时也增加了 类似Vue中的路由拦截功能。
 - #### 6.功能性作用域内置了节流，防抖，只允许触发一次等作用区域。区块化的管理功能函数。
+- # 7.引入简单 只需要在app.js中进行引入 无需修改页面 即可使用相关功能
 
 
 
@@ -28,57 +29,8 @@ App({
 })
 
 ```
-#### 使用
-页面中使用
-```javascript
-const app = getApp()
-Page({
-	data:{
-	
-	},
-	.....
-})
 
-将Page替换为app.Ani.Page
-
-const app = getApp()
-const index=app.Ani.Page({
-  data: {
-    otherHeight:0
-  },
-})
-
-```
-
-
-
-
-
-组件中使用
-
-```javascript
-const app = getApp()
-Component({
-	properties:{
-	
-	},
-	.....
-})
-
-Component替换为app.Ani.Component
-
-const app=getApp()
-const apps=app.Ani.Component({
-  properties: {
-
-  },
-
-  watchStore:{
-
-  }
-})
-
-```
+---------------------
 
 
 #### 内置功能
@@ -165,6 +117,7 @@ app.Ani.Component({
   }
 })
 ```
+---------------------
 
 # Router
 
@@ -216,6 +169,66 @@ this.$toPath({
 
 ```
 
+
+# BeforeRouter
+执行跳转之前触发
+
+可以在App.js中进行全局侦听
+在回调函数routerData中会返回跳转相关信息
+可以在其中进行修改跳转参数，跳转路径，以及跳转类型
+return false 则会进行路由拦截
+```javascript
+App({
+  Ani:new Ani(),
+  onLaunch() {
+      /*
+      * 执行路由跳转之前
+      * @param {object} routerData 跳转相关参数 可进行修改
+      * */
+      this.Ani.beforeRouter(function(routerData){
+	  
+          console.log(routerData);
+          // 禁止继续跳转
+          // return false
+
+          //修改跳转参数
+          // return {
+          //   data:{
+          //     url:'111111'
+          //   },
+          //   routerType:'redirectTo'
+          // }
+          
+      })
+  }
+}）
+```
+
+# AfterRouter
+执行跳转之后触发
+
+可以在App.js中进行全局侦听
+在回调函数page中会返回跳转到的页面实例
+可以使用被跳转页面中的方法
+```javascript
+App({
+  Ani:new Ani(),
+  onLaunch() {
+  	  /*
+      * 执行路由跳转之后
+      * @param {object} page
+      * */
+    this.Ani.afterRouter(function(page){
+        console.log(page);
+		page.setData({title:'返回信息'})
+      })
+  }
+}）
+```
+
+
+
+---------------------
 # Scope
 功能性作用域 在对应对象中书写函数 即可
 ##### 节流
@@ -251,7 +264,7 @@ debounce: {
         }
     },
 ```
-
+---------------------
 # Storage
 操作Storage 允许添加Storage的有效时间
 
@@ -269,7 +282,7 @@ const key= this.$getStorage('key')
 this.$removeStorage('key')
 
 ```	
-
+---------------------
 # Mixin
 代码混入
 **注：mixin js中一样可以使用$toPath等功能**
@@ -310,35 +323,78 @@ export default{
 }
 
 ```
-
-# ListenPage
-监听当前显示的页面信息 
-该方法会在首次进入小程序 及发生跳转后触发
+-------------------
+# 页面生命周期侦听
+# Listen
+页面生命周期侦听事件 可以统一侦听页面中的生命周期执行情况
+可以用来参与页面埋点或页面统一管理等相关操作
+#### onLoad
+侦听onLoad事件
 
 ```javascript
-Ani.listenPage(fn(page,routerName))
+ this.Ani.listen('onLoad',function(options){
+        console.log('onLoad');
+		return {
+			name:'1'
+		}
+      })
 ```
-###### listenPage回调函数中会带回两个参数 :
-page:当前显示的页面栈实例
-routerName：在发生跳转后会返回跳转类型
-
+options 为带过来的页面参数
+可以通过return 进行修改页面中onLoad接收到的参数
+可以用来统一侦听处理页面参数相关
 例子：
 ```javascript
 // app.js
-import Ani from './ani'
 App({
   Ani:new Ani(),
   onLaunch() {
-      this.Ani.listenPage(function(page,routerName){
-          console.log(page,routerName);
+       this.Ani.listen('onLoad',function(options){
+			console.log('onLoad');
+			return {
+				name:'1'
+			}
       })
   },
 })
 
 ```
 
+#### onShow
+侦听onShow事件
+
+```javascript
+ this.Ani.listen('onShow',function(options){
+        console.log('onShow');
+		//this即为当前显示页面中的this
+		console.log(this);
+      })
+```
+例子：
+```javascript
+// app.js
+App({
+  Ani:new Ani(),
+  onLaunch() {
+       this.Ani.listen('onShow',function(options){
+			console.log('onShow');
+      })
+  },
+})
+
+```
+
+#### onReady
+侦听onReady事件
+
+调用方法及使用同上onShow事件
+
+#### onHide
+侦听onHide
+
+调用方法及使用同上onShow事件
+
+-------------------
+
+
 #### 其他小功能贱Demo
-
-
-
 
