@@ -1,6 +1,6 @@
 const app=getApp()
 let that;
-app.Ani.Component({
+Component({
   data: {
 
   },
@@ -9,9 +9,8 @@ app.Ani.Component({
   },
 
   watchStore:{
-    'monitor':(news)=>{
-      console.log(this);
-      that.setData({ monitor:news })
+    'monitor'(news){
+      this.setData({ monitor:news })
     }
   }
 })
