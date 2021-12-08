@@ -1,0 +1,7 @@
+<monitor></monitor>
+<view>
+        page监听到的store变化：{{monitor}}
+    </view>
+<trigger></trigger>
+
+<button bind:tap="addStore">++Store</button>

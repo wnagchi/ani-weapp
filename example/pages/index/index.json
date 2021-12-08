@@ -1,7 +1,0 @@
-{
- 
-  "usingComponents": {
-    "monitor":"/components/monitor/monitor",
-    "trigger":"/components/triggers/trigger"
-  }
-}

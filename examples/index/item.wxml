@@ -1,0 +1,1 @@
+<button bindtap="$toPath" data-to-type="back" data-to-data="{asas:10}">返回前一页</button>

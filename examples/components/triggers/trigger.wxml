@@ -1,0 +1,1 @@
+<button bindtap="setStores">点击修改store</button>

@@ -1,0 +1,83 @@
+
+<scroll-view scroll-y="true" style="height:{{windowHeight}}px">
+    <text class="title">store</text>
+    <monitor></monitor>
+    <view>
+        page监听到的store变化：{{monitor}}
+    </view>
+    <trigger></trigger>
+
+    <view class="em"></view>
+    <text class="title">router</text>
+    <view wx:if="{{$backData}}">
+        返回时带过来的参数： {{$backData}}
+    </view>
+
+    <button bindtap="$toPath" data-to-type="to" data-path="./item" data-to-data="{{hh}}">带参数跳转到item(to)</button>
+    <button bindtap="$toPath" data-to-type="offTo" data-path="./item">关闭当前页跳转到item(offTo)</button>
+
+    <view class="em"></view>
+    <button bindtap="toItem1">js跳转到item(to)</button>
+    <button bindtap="toItem2">js关闭当前页跳转到item(offTo)</button>
+
+    <view class="em"></view>
+    <text class="title">节流</text>
+    <button bindtap="dbClick">throttle</button>
+
+    <view class="em"></view>
+    <text class="title">防抖</text>
+    <button bindtap="debounce">debounce</button>
+
+    <view class="em"></view>
+    <text class="title">只执行一次</text>
+    <button bindtap="todoOnce">once</button>
+
+
+    <view class="em"></view>
+    <text class="title">tab切换</text>
+    <view class="tab-btn">
+        <!-- <button wx:for="{{5}}" bindtap="$onTab" data-parents="tabs" data-index="{{index}}">{{item}}</button> -->
+        <button bindtap="$onTab" data-parents="tabs" data-index="1">1</button>
+        <button bindtap="$onTab" data-parents="tabs" data-index="2">2</button>
+        <button bindtap="$onTab" data-parents="tabs" data-index="3">3</button>
+        <button bindtap="$onTab" data-parents="tabs" data-index="4">4</button>
+
+    </view>
+    <view class="tab-view">
+        <!-- <block wx:for="{{5}}">
+          <view wx:if="{{tabs==undefined?index==0:tabs==index}}">{{item}}</view>
+        </block> -->
+        <view wx:if="{{tabs==undefined||tabs==1}}">1</view>
+        <view wx:if="{{tabs==2}}">2</view>
+        <view wx:if="{{tabs==3}}">3</view>
+        <view wx:if="{{tabs==4}}">4</view>
+    </view>
+
+    <view class="em"></view>
+    <text class="title">打电话</text>
+    <button bindtap="$call" data-phone="15154545454">15154545454</button>
+
+    <view class="em"></view>
+    <text class="title">storage</text>
+    <button bindtap="setStorage">set storage</button>
+    <button bindtap="getStorage">get storage</button>
+    <button bindtap="removetStorage">remove storage</button>
+
+    <view class="em"></view>
+    <text class="title">animate切换</text>
+    <button bindtap="$animateStart" data-setname="animates">{{_animate.animates.if ? 'hide' : 'show'}}</button>
+    <view id="animateView" class="animate-view" wx:if="{{_animate.animates.if}}"
+          style="height:{{_animate.animates.start?'100px':'0px'}}">
+
+    </view>
+    <!-- <view class="em"></view>
+    <text class="title">random</text>
+    <button bindtap="randomArr">随机数组</button> -->
+
+    <view style="height:50px"></view>
+</scroll-view>
+<!-- </view> -->
+
+
+
+

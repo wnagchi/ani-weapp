@@ -1,3 +1,0 @@
-<text>
-  component监听到的store变化：{{monitor}}
-</text>

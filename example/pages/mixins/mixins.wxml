@@ -1,8 +1,0 @@
-
-
-<scroll-view style="height:{{aniData.scrollHeight}}px">
- <view class="margin flex flex-direction">
-    <text class="text-black text-xl text-bold">Mixins</text>
-    <button bindtap="showToast" class="cu-btn bg-green margin-tb-sm lg button-hover">showToast</button>
- </view>
-</scroll-view>

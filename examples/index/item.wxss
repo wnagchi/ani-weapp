@@ -1,0 +1,12 @@
+.wrapper {
+  margin: 20px;
+  background: #eee;
+  padding: 10px;
+}
+.title {
+  font-size: 180%;
+}
+.content {
+  font-size: 120%;
+  margin-top: 10px;
+}
