@@ -1,7 +1,7 @@
 
 import {setMerge} from "../module/merge"
 import {isFunction, isObject} from "../utils/util";
-const oldPage=Page;
+
 import Listen from "../module/listen";
 export default class createPage{
     
@@ -9,6 +9,7 @@ export default class createPage{
         this.pageCreateDataArr = []
         this.ListenPage = []
         this.Listen = new Listen()
+        this.oldPage=Page
     }
 
     initPage(creatData){
@@ -21,8 +22,9 @@ export default class createPage{
                 }
             }
         })
-        
-        return oldPage(setMerge(creatData,this.use))
+
+
+        return this.oldPage(setMerge(creatData,this.use))
     }
 
     setPage(creatData) {
@@ -39,18 +41,15 @@ export default class createPage{
 
     agencyPage() {
         let that = this;
+        this.oldPage=Page
         Page = function (options) {
             that.ListenPage.forEach(x => {
-                if (!options[x.name]) options[x.name] = function () {
-                }
+                if (!options[x.name]) options[x.name] = function () {}
                 let oldMethods = options[x.name]
-                // options[x.name]=function (){
-                //     oldMethods.call(this)
-                //     x.fn.call(this)
-                // }
                 options[x.name] = that.Listen[x.name](options[x.name], x.fn)
             })
             options.$setStore = that.setStore.bind(that)
+            options.$getStore = that.getStore.bind(that)
             // console.log('endOptions', options.onShow)
             that.initPage(options)
         }

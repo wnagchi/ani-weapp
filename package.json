@@ -29,6 +29,7 @@
     "fs": "^0.0.1-security"
   },
   "scripts": {
+    "dev": "webpack -p --config webpack.config.dev.js",
     "build": "webpack -p"
   },
   "keywords": [],

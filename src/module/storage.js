@@ -16,7 +16,7 @@ export default {
         wx.setStorageSync('__'+key,val)
     },
     $getStorage(key) {
-        let getVal = wx.getStorageSync('__' + key);
+        let getVal = wx.getStorageSync('__' + key)||wx.getStorageSync( key);
         if (isUndefined(getVal) || getVal === '') return null
         if (!isUndefined(getVal.time)) {
             if (parseInt(getVal.time) > Date.parse(new Date()) / 1000) {

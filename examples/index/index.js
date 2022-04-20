@@ -1,5 +1,10 @@
 const app=getApp();
 let that;
+app.Ani.beforeRouter(function (data) {
+    console.log(this)
+    // console.log('hhhhhhhhh')
+    return true
+  })
 Page({
   data: {
     hh: 10,
@@ -19,7 +24,10 @@ Page({
   onInit() {
     console.log('获取到了高度', this.data.windowHeight);
   },
-
+  $beforeRouter(){
+    console.log(this);
+    console.log(1111111111111);
+  },
   toItem1() {
     this.$toPath({
       path: './item',

@@ -34,7 +34,7 @@ export default class createComponent extends createPage{
 
             if (!options.methods) options.methods = {}
             options.methods.$setStore = that.setStore.bind(that)
-
+            options.methods.$getStore = that.getStore.bind(that)
             let pageName = null;
             let watchMethods = {}
             that.componentCreateData = options

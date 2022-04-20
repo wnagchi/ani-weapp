@@ -1,5 +1,8 @@
 import createComponent from './component'
 import Agency from '../module/agencyWX'
+import pageInitFn from '../module/pageInitFn'
+import storage from "../module/storage";
+
 export default class Ani extends createComponent{
 
     constructor(config) {
@@ -23,17 +26,31 @@ export default class Ani extends createComponent{
     }
 
     beforeRouter(fn) {
-        this.agencyWx.proxyRouter({before: fn})
+        this.agencyWx.setRouterBefore({before: fn})
     }
 
     afterRouter(fn) {
         setTimeout(_ => {
             fn(getCurrentPages()[getCurrentPages().length - 1])
         }, 300)
-        this.agencyWx.proxyRouter({succeed: fn})
+        this.agencyWx.setRouterAfter({succeed: fn})
     }
 
-
+    static wxFn(){
+        return pageInitFn
+    }
+    static storage(){
+        return storage
+    }
+    static $getStorage(...args){
+        return storage.$getStorage(...args)
+    }
+    static $removeStorage(...args){
+        return storage.$removeStorage(...args)
+    }
+    static $setStorage(...args){
+        return storage.$setStorage(...args)
+    }
     proxyStore(obj) {
         const that = this
         return new Proxy(obj,{
@@ -85,3 +102,5 @@ export default class Ani extends createComponent{
         return this
     }
 }
+
+export const {$getStorage,$setStorage,$removeStorage,$clearStorage}=storage
