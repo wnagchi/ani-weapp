@@ -1,5 +1,6 @@
 import pageInitFn from "./pageInitFn";
-import { isFunction } from "../utils/util";
+import {isFunction} from "../utils/util";
+
 async function initThisPage() {
   // console.log(this.data);
   if (this.data.otherHeight) {

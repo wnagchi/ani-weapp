@@ -1,8 +1,7 @@
-
 import util from './utilFn'
 import router from './router'
 import storage from './storage'
-import {isString,isUndefined} from '../utils/util'
+import {isString, isUndefined} from '../utils/util'
 
 export default {
     $setTimeFn(fn,time=500) {

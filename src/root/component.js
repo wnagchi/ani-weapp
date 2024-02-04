@@ -1,6 +1,7 @@
 import createPage from './page'
-import {isFunction, isObject} from '../utils/util'
+import {isObject} from '../utils/util'
 import {setMerge} from '../module/mergeComponent'
+
 const oldComponent=Component;
 
 

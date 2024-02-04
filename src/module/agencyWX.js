@@ -17,7 +17,7 @@ export default class Agency {
 
     initProxy() {
         this.proxyRouter()
-        console.log(this.vm)
+        // console.log(this.vm)
     }
     setRouterBefore(data){
         this.routerConfig.push(data)

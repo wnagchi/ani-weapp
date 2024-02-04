@@ -1,5 +1,6 @@
-import Ani,{$getStorage} from './ani.min'
+import Ani, {$getStorage} from './ani.min'
 import mixinsMethod from './lib/mixinsMethods'
+
 console.log($getStorage('aaaa'));
 Page.prototype.aaaa=function(){
     console.log(1111);

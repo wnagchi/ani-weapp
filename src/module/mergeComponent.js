@@ -1,13 +1,9 @@
-import {debounce, throttle} from "./sectionFn";
-import {isObject} from "../utils/util";
-
-import initPage from "./initPage";
+import {isFunction} from "../utils/util";
 import pageInitFn from "./pageInitFn";
 import userFn from "./userFn";
 import utilFn from "./utilFn";
 import wxmlFn from "./wxmlFn";
 import initComponent from "./initComponent";
-import {isFunction} from "../utils/util";
 
 const mergeFunctions = [
     pageInitFn,

@@ -1,4 +1,4 @@
-import {isUndefined,isObject} from '../utils/util'
+import {isObject, isUndefined} from '../utils/util'
 import utils from './utilFn'
 
 const routerType=[

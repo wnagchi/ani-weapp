@@ -1,8 +1,8 @@
-
 import {setMerge} from "../module/merge"
-import {isFunction, isObject} from "../utils/util";
+import {isObject} from "../utils/util";
 
 import Listen from "../module/listen";
+
 export default class createPage{
     
     constructor() {
