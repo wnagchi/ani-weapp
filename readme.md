@@ -1,17 +1,28 @@
+# 小程序增强框架
 
-- #### 1.为小程序添加了跨组件实时通信；父子组件实时同步状态功能；
-- #### 2.与vue相似的WatchStore功能，监听全局状态的变化；
-- #### 3.更加简单的引入，还内置了如同Vue中的mixin 功能， 将页面中复杂的功能拆解开，使后期维护更加方便；
-- #### 4.内置了屏幕安全域功能 直接方便避免苹果系列手机下方黑条；
-- #### 5.内置封装的跳转功能 可以直接在wxml中实现带参跳转，js带参跳转 ，封装成为比官方更加简便的调用方式，参数传递 ；同时也增加了 类似Vue中的路由拦截功能。
-- #### 6.功能性作用域内置了节流，防抖，只允许触发一次等作用区域。区块化的管理功能函数。
-- # 7.引入简单 只需要在app.js中进行引入 无需修改页面 即可使用相关功能
+本框架旨在为小程序开发提供一套强大的增强功能，使得开发更加高效，维护更加便捷。借鉴了 Vue 的一些优秀设计，本框架提供了以下核心特性：
 
+## 核心特性
 
+- **跨组件实时通信**：实现了父子组件间的实时状态同步，让状态管理变得更加直观和便捷。
+- **WatchStore 功能**：类似于 Vue 的 watch 功能，能够监听全局状态的变化，响应式地处理数据更新。
+- **简便的引入机制**：框架设计简洁，易于引入，无需对现有页面进行大量修改即可快速集成。
+- **Mixin 功能**：提供了类似于 Vue 中的 mixin 功能，支持将页面逻辑拆分，便于功能复用和后期维护。
+- **屏幕安全域适配**：内置屏幕安全域功能，自动适配各种屏幕尺寸，特别是苹果系列手机的底部安全区域。
+- **增强的页面跳转**：提供了封装优化后的页面跳转功能，支持在 WXML 和 JavaScript 中实现带参跳转，简化了官方跳转方式的复杂度。
+- **功能性作用域管理**：内置了节流、防抖、单次触发等实用功能，通过区块化管理，提升代码的稳定性和性能。
+- **Canvas 2D API 封装**：提供了 Canvas 2D API 的高效封装，快速实现图形绘制、海报生成等功能。
+- **生命周期监听**：支持对 onLoad、onReady、onShow 等页面生命周期事件的深度监听，便于实现复杂的页面逻辑。
+- **路由拦截**：提供了全面的路由拦截功能，适用于所有跳转方式，包括原生跳转，增强页面访问控制。
 
+## 快速开始
+# node版本要求：v16.*
 
-## 开始
+```shell
+npm i
 
+npm run dev
+```
 
 #### 引入
 
@@ -23,7 +34,6 @@ import Ani from './ani'
 
 App({
   Ani:new Ani()
-  
 })
 
 ```
@@ -31,16 +41,16 @@ App({
 ---------------------
 
 
-#### 内置功能
+## 内置功能
 
 
 # Store:
-同步监听修改
+### 同步监听修改，可以在Page或者Component使用setStore()新增状态，并使用watchStore监听状态变化;从而实现组件与组件，组件与页面间的实时通信，避免了跨组件传值的麻烦操作
 ![Video_2021-08-07_202608](https://z3.ax1x.com/2021/08/07/fM46OI.gif)
 
 触发：通过  构造器.setStore(key,value)  将监听值加入Store
 ```javascript
-//apps为app.Ani.Component函数
+//apps为app.Ani.Component
 apps.setStore(key,value)
 
 
@@ -56,8 +66,7 @@ const apps=app.Ani.Component({
   methods: {
     setStore(){
       this.data.val++;
-	  
-	  修改store
+      修改store
       apps.setStore('monitor',this.data.val)
     }
   },
@@ -67,7 +76,7 @@ const apps=app.Ani.Component({
 
 
 
-监听Store:
+监听Store 基本用法同Vue Watch:
 ```javascript
  watchStore: {
     'key'(news, old) {
@@ -170,7 +179,7 @@ this.$toPath({
 
 # BeforeRouter
 执行跳转之前触发
-
+## 注：该功能不仅针对$toPath执行的跳转功能，而是对所有wx原生跳转同样生效
 可以在App.js中进行全局侦听
 在回调函数routerData中会返回跳转相关信息
 可以在其中进行修改跳转参数，跳转路径，以及跳转类型
@@ -188,7 +197,6 @@ App({
           console.log(routerData);
           // 禁止继续跳转
           // return false
-
           //修改跳转参数
           // return {
           //   data:{
@@ -393,6 +401,143 @@ App({
 
 -------------------
 
+# 附加功能
+## 这些方法都可以在Page wxml中直接进行调用
+### 延时等待 $sleep(time)
+```javascript
+async function someAsyncFunction() {
+    await this.$sleep(2000);
+    console.log('延时2秒后执行');
+}
+```
 
+### 拨打电话 $call(e)
+```javascript
+this.$call('1234567890');
+```
+wxml中使用
+```html
+<button bindtap="$call" data-phone="024-13113141">拨打电话</button>
+```
+### 页面返回并传递数据 $backPage(key, val, toPre)
+````javascript
+// 返回并传递数据
+this.$backPage('someKey', 'someValue');
+````
+
+# store 使用方法
+## CreateStore
+
+`CreateStore` 是一个核心类，用于创建应用的状态存储。它负责维护应用的状态树，并允许通过 `dispatch` 方法更新状态。
+### 使用方法
+
+```javascript
+const store = new CreateStore(reducer, initialState);
+```
+- reducer: 一个函数，根据当前状态和给定的动作返回新状态。
+- initialState: 可选，初始状态值。
+## applyMiddleware
+`applyMiddleware` 是一个高阶函数，用于将中间件应用于 `CreateStore`。 函数使你可以向存储添加中间件，以增强其功能。中间件可以用于日志记录、异步操作处理等。
+### 使用方法
+
+```javascript
+applyMiddleware(store, [middleware1, middleware2]);
+```
+- store: 一个 `CreateStore` 实例。
+- middleware1, middleware2: 中间件函数。
+## logger
+`logger` 是一个日志记录中间件，用于记录每次状态变更。
+### 使用方法
+
+```javascript
+applyMiddleware(store, [logger]);
+```
+## thunk
+`thunk` 是一个异步操作中间件，用于处理异步操作。
+### 使用方法
+
+```javascript
+applyMiddleware(store, [thunk]);
+```
+## persistMiddleware
+`persistMiddleware` 是一个持久化中间件，用于将状态持久化到本地存储。
+### 使用方法
+
+```javascript
+applyMiddleware(store, [persistMiddleware]);
+```
+## dispatch
+`dispatch` 是一个用于触发动作的方法，用于更新状态。
+### 使用方法
+
+```javascript
+store.dispatch({ type: 'INCREMENT' });
+```
+## subscribe
+`subscribe` 是一个用于订阅状态变更的方法，用于监听状态变更。
+### 使用方法
+
+```javascript
+const unsubscribe = store.subscribe(() => console.log(store.getState()));
+
+// 取消订阅
+unsubscribe();
+```
+## getState
+`getState` 是一个用于获取当前状态的方法。
+### 使用方法
+
+```javascript
+store.getState();
+```
+
+
+### 构建store
+```javascript
+
+// 引入状态管理库的各个部分，包括创建存储的方法、应用中间件的方法以及一些内置中间件
+import { CreateStore, applyMiddleware, logger, thunk, persistMiddleware, Action } from './ani.store.RD.min';
+
+// 定义初始状态，可以包含任意多个键值对，此处以 userInfo 为例
+const initialState = {
+    userInfo: {}, // 初始用户信息为空对象
+};
+
+// 定义根 reducer，它负责处理所有的动作并返回新的状态
+function rootReducer(state = initialState, action: Action) {
+    switch (action.type) {
+        case 'SET_USER_INFO': // 当动作类型为 'SET_USER_INFO' 时，更新 userInfo
+            return { ...state, userInfo: action.payload }; // 使用 action 的 payload 更新 userInfo
+        default:
+            console.log('无匹配的Action') // 若无匹配的动作类型，打印日志
+            return state; // 返回未修改的状态
+    }
+}
+
+// 使用 rootReducer 和 initialState 创建一个新的存储
+const store = new CreateStore(rootReducer, initialState);
+
+// 应用中间件到存储
+// logger 中间件用于打印动作和状态的变化信息
+// thunk 中间件允许我们派发函数而不仅仅是动作对象
+// persistMiddleware 中间件用于将状态的变化持久化到本地存储
+applyMiddleware(store, [logger, thunk, persistMiddleware]);
+
+// 导出配置好的存储，以便在应用的其他部分使用
+export default store;
+
+    
+```
+### 调度动作
+```javascript
+store.dispatch({ type: 'INCREMENT' });
+```
+### 订阅状态变更
+```javascript
+const unsubscribe = store.subscribe(() => console.log(store.getState()));
+
+// 取消订阅
+unsubscribe();
+```
 #### 其他小功能贱Demo
 
