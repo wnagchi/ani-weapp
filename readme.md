@@ -46,7 +46,7 @@ App({
 
 # Store:
 ### Synchronously listen to modifications, allowing for the addition of state using setStore() in Page or Component, and listen to state changes using watchStore. This enables real-time communication between components and pages, avoiding cumbersome operations of cross-component value passing.
-![Video_2021-08-07_202608](https://z3.ax1x.com/2021/08/07/fM46OI.gif)
+
 
 Trigger: Add the listening value to Store through the constructor.setStore(key, value)
 ```javascript
