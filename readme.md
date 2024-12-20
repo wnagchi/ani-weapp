@@ -1,22 +1,22 @@
-# 小程序增强框架
+# Mini Program Enhancement Framework
 
-本框架旨在为小程序开发提供一套强大的增强功能，使得开发更加高效，维护更加便捷。借鉴了 Vue 的一些优秀设计，本框架提供了以下核心特性：
+The framework aims to provide a powerful set of enhancements for mini-program development, making development more efficient and maintenance more convenient. Inspired by some excellent designs from Vue, this framework offers the following core features:
 
-## 核心特性
+## Core Features
 
-- **跨组件实时通信**：实现了父子组件间的实时状态同步，让状态管理变得更加直观和便捷。
-- **WatchStore 功能**：类似于 Vue 的 watch 功能，能够监听全局状态的变化，响应式地处理数据更新。
-- **简便的引入机制**：框架设计简洁，易于引入，无需对现有页面进行大量修改即可快速集成。
-- **Mixin 功能**：提供了类似于 Vue 中的 mixin 功能，支持将页面逻辑拆分，便于功能复用和后期维护。
-- **屏幕安全域适配**：内置屏幕安全域功能，自动适配各种屏幕尺寸，特别是苹果系列手机的底部安全区域。
-- **增强的页面跳转**：提供了封装优化后的页面跳转功能，支持在 WXML 和 JavaScript 中实现带参跳转，简化了官方跳转方式的复杂度。
-- **功能性作用域管理**：内置了节流、防抖、单次触发等实用功能，通过区块化管理，提升代码的稳定性和性能。
-- **Canvas 2D API 封装**：提供了 Canvas 2D API 的高效封装，快速实现图形绘制、海报生成等功能。
-- **生命周期监听**：支持对 onLoad、onReady、onShow 等页面生命周期事件的深度监听，便于实现复杂的页面逻辑。
-- **路由拦截**：提供了全面的路由拦截功能，适用于所有跳转方式，包括原生跳转，增强页面访问控制。
+- **Real-time Cross-Component Communication**: Achieves real-time state synchronization between parent and child components, making state management more intuitive and convenient.
+- **WatchStore Functionality**: Similar to Vue's watch function, it can monitor changes in global state and respond reactively to data updates.
+- **Simple Import Mechanism**: The framework is designed to be simple and easy to import, allowing for quick integration without extensive modifications to existing pages.
+- **Mixin Functionality**: Provides a feature similar to Vue's mixin, supporting the division of page logic for easier function reuse and later maintenance.
+- **Screen Safe Area Adaptation**: Built-in screen safe area functionality automatically adapts to various screen sizes, especially the bottom safe area of Apple series phones.
+- **Enhanced Page Navigation**: Offers optimized page navigation functions, supporting parameterized navigation in WXML and JavaScript, simplifying the complexity of the official navigation method.
+- **Functional Scope Management**: Includes practical functions such as throttling, debouncing, and single-trigger through block management to enhance code stability and performance.
+- **Canvas 2D API Encapsulation**: Provides efficient encapsulation of the Canvas 2D API for quick implementation of graphic drawing, poster generation, and other functions.
+- **Lifecycle Listening**: Supports deep listening of page lifecycle events such as onLoad, onReady, and onShow, facilitating the implementation of complex page logic.
+- **Route Interception**: Offers comprehensive route interception functionality applicable to all navigation methods, including native navigation, enhancing page access control.
 
-## 快速开始
-# node版本要求：v16.*
+## Quick Start
+# Node Version Requirement: v16.*
 
 ```shell
 npm i
@@ -24,10 +24,10 @@ npm i
 npm run dev
 ```
 
-#### 引入
+#### Import
 
 
- 在app.js中全局引入
+ In app.js, import globally
 ```javascript
 // app.js
 import Ani from './ani'
@@ -41,21 +41,21 @@ App({
 ---------------------
 
 
-## 内置功能
+## Built-in Features
 
 
 # Store:
-### 同步监听修改，可以在Page或者Component使用setStore()新增状态，并使用watchStore监听状态变化;从而实现组件与组件，组件与页面间的实时通信，避免了跨组件传值的麻烦操作
+### Synchronously listen to modifications, allowing for the addition of state using setStore() in Page or Component, and listen to state changes using watchStore. This enables real-time communication between components and pages, avoiding cumbersome operations of cross-component value passing.
 ![Video_2021-08-07_202608](https://z3.ax1x.com/2021/08/07/fM46OI.gif)
 
-触发：通过  构造器.setStore(key,value)  将监听值加入Store
+Trigger: Add the listening value to Store through the constructor.setStore(key, value)
 ```javascript
-//apps为app.Ani.Component
+//apps refers to app.Ani.Component
 apps.setStore(key,value)
 
 
 ```
-例子：
+Example:
 ```javascript
 
 const app=getApp()
@@ -66,7 +66,7 @@ const apps=app.Ani.Component({
   methods: {
     setStore(){
       this.data.val++;
-      修改store
+       Modify store
       apps.setStore('monitor',this.data.val)
     }
   },
@@ -76,7 +76,7 @@ const apps=app.Ani.Component({
 
 
 
-监听Store 基本用法同Vue Watch:
+Listen to Store Basic Usage similar to Vue Watch:
 ```javascript
  watchStore: {
     'key'(news, old) {
@@ -84,16 +84,16 @@ const apps=app.Ani.Component({
     }
 }
 ```
-例子：
+Example:
 ```javascript
-//页面
+// Page
 const app = getApp()
 const index=app.Ani.Page({
   data: {
     otherHeight:0
   },
 
-  // 监听器
+  // Listener
   watchStore: {
     'monitor'(news, old) {
         this.setData({
@@ -105,8 +105,8 @@ const index=app.Ani.Page({
 })
 
 
-//其他组件
-//这个地方很捞 组件的watchStore中触发时没拿到this无法绑定 所以暂时只能通过外部定义this来使用其他方法
+// Other Component
+// This part is tricky because when triggered in the component's watchStore, 'this' is not available for binding, so external 'this' definition must be used to access other methods temporarily.
 const app=getApp()
 let that;
 app.Ani.Component({
@@ -128,82 +128,73 @@ app.Ani.Component({
 
 # Router
 
-跳转
-wxml页面中直接跳转:
+Jump Direct jump in the wxml page::
 
 ```html
 
   <button 
-  		事件：$toPath
-        bindtap="$toPath" 
-		
-		跳转类型：data-to-type
-        data-to-type="to" 
-		
-		跳转路径：data-path
-        data-path="../item/item" 
-		
-		跳转参数：data-to-data
-        data-to-data="{{hh}}" 
-    >
-        带参数跳转 
-    </button>
-```
-$toPath：跳转事件名称
-data-path：跳转路径
-data-to-data：跳转参数
-data-to-type：跳转类型
-**注：跳转类型同微信官方跳转方式，并支持简写**
- - navigateTo：默认跳转方式；简写（to）
- - switchTab：简写（toTab）跳转到 tabBar 页面，并关闭其他所有非 tabBar 页面
- - reLaunch：简写（launch）关闭所有页面，打开到应用内的某个页面
- - redirectTo：简写（offTo）关闭当前页面，跳转到应用内的某个页面。但是不允许跳转到 tabbar 页面。
- - navigateBack：简写（back）关闭当前页面，返回上一页面或多级页面。
+  Event: $toPath
+  bindtap="$toPath" 
 
-js中的跳转事件:
+  Jump Type: data-to-type
+  data-to-type="to" 
+
+  Jump Path: data-path
+  data-path="../item/item" 
+
+  Jump Parameters: data-to-data
+  data-to-data="{{hh}}" 
+>
+  Jump with Parameters 
+</button>
+```
+$toPath: Jump event name data-path: Jump path data-to-data: Jump parameters data-to-type: Jump type Note: The jump type is the same as the official WeChat jump method and supports shorthand
+
+navigateTo: Default jump method; shorthand (to)
+switchTab: Shorthand (toTab) jumps to the tabBar page and closes all other non-tabBar pages
+reLaunch: Shorthand (launch) closes all pages, navigates to a page within the application
+redirectTo: Shorthand (offTo) closes the current page, navigates to a page within the application. Cannot jump to tabBar page.
+navigateBack: Shorthand (back) closes the current page, returns to the previous or multi-level page.
+Jump event in js:
 ```javascript
 this.$toPath({
+  Jump Path: path
+  path: '../item/item',
 
-     跳转路径：path
-      path: '../item/item',
-	  
-	  跳转参数：toData
-      toData: {a:30},
-	  
-	  跳转类型：toData
-      toType: 'offTo'
-    })
+  Jump Parameters: toData
+  toData: { a: 30 },
+
+  Jump Type: toType
+  toType: 'offTo'
+})
 
 ```
 
 
-# BeforeRouter
-执行跳转之前触发
-## 注：该功能不仅针对$toPath执行的跳转功能，而是对所有wx原生跳转同样生效
-可以在App.js中进行全局侦听
-在回调函数routerData中会返回跳转相关信息
-可以在其中进行修改跳转参数，跳转路径，以及跳转类型
-return false 则会进行路由拦截
+BeforeRouter
+Triggered before the jump
+
+Note: This function applies not only to jumps executed by $toPath but also to all native WeChat jumps.
+Can be globally monitored in App.js. In the callback function routerData, jump-related information is returned. You can modify jump parameters, paths, and types in it. Return false will intercept the route.
 ```javascript
 App({
   Ani:new Ani(),
   onLaunch() {
       /*
-      * 执行路由跳转之前
-      * @param {object} routerData 跳转相关参数 可进行修改
+      * Before executing route jump
+      * @param {object} routerData Jump related parameters can be modified
       * */
       this.Ani.beforeRouter(function(routerData){
-	  
-          console.log(routerData);
-          // 禁止继续跳转
-          // return false
-          //修改跳转参数
-          // return {
-          //   data:{
-          //     url:'111111'
-          //   },
-          //   routerType:'redirectTo'
-          // }
+  	console.log(routerData);
+  	// Prohibit further jumps
+        // return false
+        // Modify jump parameters
+        // return {
+        //   data: {
+        //     url: '111111'
+        //   },
+        //   routerType: 'redirectTo'
+        // }
           
       })
   }
@@ -211,22 +202,20 @@ App({
 ```
 
 # AfterRouter
-执行跳转之后触发
+Triggered after the jump
 
-可以在App.js中进行全局侦听
-在回调函数page中会返回跳转到的页面实例
-可以使用被跳转页面中的方法
+Can be globally monitored in App.js In the callback function page, the instance of the page being navigated to is returned. Methods in the navigated page can be used.
 ```javascript
 App({
   Ani:new Ani(),
   onLaunch() {
-  	  /*
-      * 执行路由跳转之后
-      * @param {object} page
-      * */
+  	    /*
+    * After route jump
+    * @param {object} page
+    * */
     this.Ani.afterRouter(function(page){
         console.log(page);
-		page.setData({title:'返回信息'})
+	 page.setData({ title: 'Returned Information' })
       })
   }
 }）
@@ -236,35 +225,35 @@ App({
 
 ---------------------
 # Scope
-功能性作用域 在对应对象中书写函数 即可
-##### 节流
+Functional scope Write functions in the corresponding object
+##### Throttle
 ```javascript
  throttle: {
-        // 允许再次触发时间
+         // Allowed retrigger time
         time:'1200',
-		//函数
+	 // Function
         dbClick() {
             console.log('throttle');
         },
     },
 
 ```
-##### 防抖
+##### Debounce
 ```javascript
 debounce: {
-        // 允许再次触发时间
+        // Allowed retrigger time
         time:'500',
-		//函数
+	 // Function
         debounce() {
             console.log('debounce');
         }
     },
 
 ```
-##### 执行一次
+##### Execute Once
 ```javascript
  once: {
- 		//函数
+ 	 // Function
         todoOnce() {
             console.log('once');
         }
@@ -272,36 +261,36 @@ debounce: {
 ```
 ---------------------
 # Storage
-操作Storage 允许添加Storage的有效时间
+Operate Storage Allows adding effective time to Storage
 
-添加Storage：
+Add Storage：
 ```javascript
-//添加一条有效时间为5秒的存储
+// Add a storage with a valid time of 5 seconds
 this.$setStorage('key','value', 5)
 ```
-获取Storage：
+Get Storage:
 ```javascript
 const key= this.$getStorage('key')
 ```	
-删除Storage：
+Delete Storage:
 ```javascript
 this.$removeStorage('key')
 
 ```	
 ---------------------
 # Mixin
-代码混入
-**注：mixin js中一样可以使用$toPath等功能**
-js中使用方法：
+Code Mixin
+**Note: mixin js can also use $toPath and other functions**
+Usage in js:
 ```javascript
 const app=getApp();
-//引入js
+// Import js
 import one from './one'
 import two from './two '
 ....
 
 const apps = app.Ani.Page({
-    //加入到mixins数组中
+   // Add to mixins array
     mixins:[one,two ],
 	
     onLoad(options){
@@ -323,19 +312,18 @@ export default{
 	},
     showToast(){
       wx.showToast({
-        title: '你好',
+         title: 'Hello',
       })
     }
 }
 
 ```
 -------------------
-# 页面生命周期侦听
+# Page Lifecycle Listening
 # Listen
-页面生命周期侦听事件 可以统一侦听页面中的生命周期执行情况
-可以用来参与页面埋点或页面统一管理等相关操作
+Page lifecycle listening events can uniformly listen to the execution status of the lifecycle in the page. Can be used for page burying points or unified management and other related operations
 #### onLoad
-侦听onLoad事件
+Listen to onLoad event
 
 ```javascript
  this.Ani.listen('onLoad',function(options){
@@ -345,10 +333,8 @@ export default{
 		}
       })
 ```
-options 为带过来的页面参数
-可以通过return 进行修改页面中onLoad接收到的参数
-可以用来统一侦听处理页面参数相关
-例子：
+options are the passed page parameters You can use return to modify the parameters received by onLoad in the page Can be used to uniformly listen to and handle page parameter-related 
+Example:
 ```javascript
 // app.js
 App({
@@ -366,7 +352,7 @@ App({
 ```
 
 #### onShow
-侦听onShow事件
+Listen to onShow event
 
 ```javascript
  this.Ani.listen('onShow',function(options){
@@ -375,7 +361,7 @@ App({
 		console.log(this);
       })
 ```
-例子：
+Example:
 ```javascript
 // app.js
 App({
@@ -390,154 +376,154 @@ App({
 ```
 
 #### onReady
-侦听onReady事件
+Listen to onReady event
 
-调用方法及使用同上onShow事件
+The method of calling and using is the same as the onShow event.
 
 #### onHide
-侦听onHide
+Listen to onHide
 
-调用方法及使用同上onShow事件
+The method of calling and using is the same as the onShow event.
 
 -------------------
 
-# 附加功能
-## 这些方法都可以在Page wxml中直接进行调用
-### 延时等待 $sleep(time)
+# Additional Features
+## These methods can all be called directly in the Page wxml
+### Delayed Wait $sleep(time)
 ```javascript
 async function someAsyncFunction() {
     await this.$sleep(2000);
-    console.log('延时2秒后执行');
+     console.log('Executed after a 2-second delay');
 }
 ```
 
-### 拨打电话 $call(e)
+### Make a Call $call(e)
 ```javascript
 this.$call('1234567890');
 ```
-wxml中使用
+Use in wxml
 ```html
-<button bindtap="$call" data-phone="024-13113141">拨打电话</button>
+<button bindtap="$call" data-phone="024-13113141">Make a Call</button>
 ```
-### 页面返回并传递数据 $backPage(key, val, toPre)
+### Page Return and Pass Data $backPage(key, val, toPre)
 ````javascript
-// 返回并传递数据
+// Return and pass data
 this.$backPage('someKey', 'someValue');
 ````
 
-# store 使用方法
+# Store Usage
 ## CreateStore
 
-`CreateStore` 是一个核心类，用于创建应用的状态存储。它负责维护应用的状态树，并允许通过 `dispatch` 方法更新状态。
-### 使用方法
+`CreateStore`  is a core class used to create application state storage. It is responsible for maintaining the application's state tree and allows updating the state through the `dispatch` method.
+### Usage
 
 ```javascript
 const store = new CreateStore(reducer, initialState);
 ```
-- reducer: 一个函数，根据当前状态和给定的动作返回新状态。
-- initialState: 可选，初始状态值。
+- reducer: A function that returns a new state based on the current state and the given action.
+- initialState: Optional initial state value.
 ## applyMiddleware
-`applyMiddleware` 是一个高阶函数，用于将中间件应用于 `CreateStore`。 函数使你可以向存储添加中间件，以增强其功能。中间件可以用于日志记录、异步操作处理等。
-### 使用方法
+`applyMiddleware` is a higher-order function used to apply middleware to `CreateStore`. The function allows you to add middleware to the store to enhance its functionality. Middleware can be used for logging, asynchronous operation handling, etc.
+### Usage
 
 ```javascript
 applyMiddleware(store, [middleware1, middleware2]);
 ```
-- store: 一个 `CreateStore` 实例。
-- middleware1, middleware2: 中间件函数。
+- store: A  `CreateStore`  instance.
+- middleware1, middleware2: Middleware functions.
 ## logger
-`logger` 是一个日志记录中间件，用于记录每次状态变更。
-### 使用方法
+`logger`  is a logging middleware used to record every state change.
+### Usage
 
 ```javascript
 applyMiddleware(store, [logger]);
 ```
 ## thunk
-`thunk` 是一个异步操作中间件，用于处理异步操作。
-### 使用方法
+`thunk` thunk is an asynchronous operation middleware used to handle asynchronous operations.
+### Usage
 
 ```javascript
 applyMiddleware(store, [thunk]);
 ```
 ## persistMiddleware
-`persistMiddleware` 是一个持久化中间件，用于将状态持久化到本地存储。
-### 使用方法
+`persistMiddleware`  is a persistence middleware used to persist state to local storage.
+### Usage
 
 ```javascript
 applyMiddleware(store, [persistMiddleware]);
 ```
 ## dispatch
-`dispatch` 是一个用于触发动作的方法，用于更新状态。
-### 使用方法
+`dispatch` is a method used to trigger actions to update the state.
+### Usage
 
 ```javascript
 store.dispatch({ type: 'INCREMENT' });
 ```
 ## subscribe
-`subscribe` 是一个用于订阅状态变更的方法，用于监听状态变更。
-### 使用方法
+`subscribe`  is a method used to subscribe to state changes to listen for state changes.
+### Usage
 
 ```javascript
 const unsubscribe = store.subscribe(() => console.log(store.getState()));
 
-// 取消订阅
+// Unsubscribe
 unsubscribe();
 ```
 ## getState
-`getState` 是一个用于获取当前状态的方法。
-### 使用方法
+`getState`  is a method used to get the current state.
+### Usage
 
 ```javascript
 store.getState();
 ```
 
 
-### 构建store
+### Build store
 ```javascript
 
-// 引入状态管理库的各个部分，包括创建存储的方法、应用中间件的方法以及一些内置中间件
+// Import various parts of the state management library, including methods for creating stores, applying middleware, and some built-in middleware
 import { CreateStore, applyMiddleware, logger, thunk, persistMiddleware, Action } from './ani.store.RD.min';
 
-// 定义初始状态，可以包含任意多个键值对，此处以 userInfo 为例
+// Define the initial state, which can contain any number of key-value pairs, using userInfo as an example
 const initialState = {
-    userInfo: {}, // 初始用户信息为空对象
+    userInfo: {}, // Initial user information is an empty object
 };
 
-// 定义根 reducer，它负责处理所有的动作并返回新的状态
+// Define the root reducer, which handles all actions and returns a new state
 function rootReducer(state = initialState, action: Action) {
     switch (action.type) {
-        case 'SET_USER_INFO': // 当动作类型为 'SET_USER_INFO' 时，更新 userInfo
-            return { ...state, userInfo: action.payload }; // 使用 action 的 payload 更新 userInfo
+        case 'SET_USER_INFO':  // When the action type is 'SET_USER_INFO', update userInfo
+            return { ...state, userInfo: action.payload };  // Use the payload of the action to update userInfo
         default:
-            console.log('无匹配的Action') // 若无匹配的动作类型，打印日志
-            return state; // 返回未修改的状态
+             console.log('No matching Action') // If there is no matching action type, print the log
+            return state; // Return the unmodified state
     }
 }
 
-// 使用 rootReducer 和 initialState 创建一个新的存储
+// Create a new store using rootReducer and initialState
 const store = new CreateStore(rootReducer, initialState);
 
-// 应用中间件到存储
-// logger 中间件用于打印动作和状态的变化信息
-// thunk 中间件允许我们派发函数而不仅仅是动作对象
-// persistMiddleware 中间件用于将状态的变化持久化到本地存储
+// Apply middleware to the store
+// logger middleware is used to print action and state change information
+// thunk middleware allows us to dispatch functions in addition to action objects
+// persistMiddleware middleware is used to persist state changes to local storage
 applyMiddleware(store, [logger, thunk, persistMiddleware]);
 
-// 导出配置好的存储，以便在应用的其他部分使用
+// Export the configured store for use in other parts of the application
 export default store;
 
     
 ```
-### 调度动作
+### Dispatch Actions
 ```javascript
 store.dispatch({ type: 'INCREMENT' });
 ```
-### 订阅状态变更
+### Subscribe to State Changes
 ```javascript
 const unsubscribe = store.subscribe(() => console.log(store.getState()));
 
-// 取消订阅
+// Unsubscribe
 unsubscribe();
 ```
-#### 其他小功能贱Demo
+#### Other Small Function Demos
 
